@@ -14,7 +14,7 @@ export function Cell({ isFilled, color, isGhost }: CellProps) {
     boxSizing: "border-box",
     backgroundColor: isFilled
       ? isGhost
-        ? `${color}40`
+        ? `${color}20`
         : color
       : "rgba(255, 255, 255, 0.03)",
   };

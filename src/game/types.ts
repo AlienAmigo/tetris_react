@@ -1,4 +1,4 @@
-export type CellValue = 0 | 1;
+export type CellValue = 0 | string;
 
 export interface Position {
   x: number;

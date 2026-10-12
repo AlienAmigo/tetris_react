@@ -16,6 +16,7 @@ function placePiece(
   board: CellValue[][],
   matrix: number[][],
   position: Position,
+  color: string,
 ): CellValue[][] {
   const newBoard = board.map((row) => [...row]);
 
@@ -30,7 +31,7 @@ function placePiece(
           boardX >= 0 &&
           boardX < BOARD_WIDTH
         ) {
-          newBoard[boardY][boardX] = 1 as CellValue;
+          newBoard[boardY][boardX] = color as CellValue;
         }
       }
     }
@@ -131,6 +132,7 @@ export function moveDown(state: GameState): {
     state.board,
     state.currentPiece.matrix,
     state.currentPosition,
+    state.currentPiece.color,
   );
   const { newBoard, linesCleared } = clearFullLines(placedBoard);
 
@@ -171,10 +173,15 @@ export function hardDrop(state: GameState): GameState {
   const dropDistance = dropY - state.currentPosition.y;
   const droppedScore = dropDistance * 2;
 
-  const placedBoard = placePiece(state.board, state.currentPiece.matrix, {
-    x: state.currentPosition.x,
-    y: dropY,
-  });
+  const placedBoard = placePiece(
+    state.board,
+    state.currentPiece.matrix,
+    {
+      x: state.currentPosition.x,
+      y: dropY,
+    },
+    state.currentPiece.color,
+  );
   const { newBoard, linesCleared } = clearFullLines(placedBoard);
 
   const newLines = state.lines + linesCleared;
@@ -253,6 +260,7 @@ export function applyGravity(
           updatedState.board,
           _state.currentPiece.matrix,
           _state.currentPosition,
+          _state.currentPiece.color,
         );
         const { newBoard, linesCleared } = clearFullLines(placedBoard);
 

@@ -8,20 +8,8 @@ interface BoardProps {
   gameState: GameState;
 }
 
-function renderBoard(gameState: GameState): number[][] {
-  const board: number[][] = Array.from({ length: BOARD_HEIGHT }, () =>
-    Array.from({ length: BOARD_WIDTH }, () => 0),
-  );
-
-  for (let y = 0; y < BOARD_HEIGHT; y++) {
-    for (let x = 0; x < BOARD_WIDTH; x++) {
-      if (gameState.board[y][x] === 1) {
-        board[y][x] = 1;
-      }
-    }
-  }
-
-  return board;
+function renderBoard(gameState: GameState): (string | 0)[][] {
+  return gameState.board.map((row) => row.map((cell) => cell as string | 0));
 }
 
 function renderCurrentPiece(gameState: GameState): {
@@ -61,14 +49,15 @@ function renderGhostPiece(gameState: GameState): {
 }
 
 function getCellContent(
-  board: number[][],
+  board: (string | 0)[][],
   currentPiece: ReturnType<typeof renderCurrentPiece>,
   ghostPiece: ReturnType<typeof renderGhostPiece>,
   row: number,
   col: number,
 ): { filled: boolean; color?: string; isGhost?: boolean } {
-  if (board[row][col] === 1) {
-    return { filled: true };
+  const cellValue = board[row][col];
+  if (cellValue !== 0) {
+    return { filled: true, color: cellValue as string };
   }
 
   if (currentPiece) {

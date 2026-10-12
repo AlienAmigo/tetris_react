@@ -16,7 +16,7 @@ export function isColliding(
           return true;
         }
 
-        if (newY >= 0 && board[newY][newX] === 1) {
+        if (newY >= 0 && board[newY][newX] !== 0) {
           return true;
         }
       }
